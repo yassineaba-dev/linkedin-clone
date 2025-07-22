@@ -27,11 +27,12 @@ const Navbar = () => {
 	});
 
 	const { mutate: logout } = useMutation({
-		mutationFn: () => axiosInstance.post("/auth/logout"),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["authUser"] });
-		},
-	});
+	mutationFn: () => axiosInstance.post("/auth/logout"),
+	onSuccess: () => {
+		queryClient.setQueryData(["authUser"], null); // مسح المستخدم يدويًا
+	},
+        });
+
 
 	const unreadNotificationCount = notifications?.data.filter((notif) => !notif.read).length;
 	const unreadConnectionRequestsCount = connectionRequests?.data?.length;
