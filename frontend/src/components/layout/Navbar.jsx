@@ -4,7 +4,14 @@ import { Link } from "react-router-dom";
 import { Bell, Home, LogOut, User, Users } from "lucide-react";
 
 const Navbar = () => {
-	const { data: authUser } = useQuery({ queryKey: ["authUser"] });
+	const { data: authUser } = useQuery({
+	queryKey: ["authUser"],
+	queryFn: async () => {
+		const res = await axiosInstance.get("/auth/me"); // أو أي endpoint يعيد المستخدم الحالي
+		return res.data;
+	},
+        });
+
 	const queryClient = useQueryClient();
 
 	const { data: notifications } = useQuery({
